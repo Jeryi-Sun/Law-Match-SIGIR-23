@@ -77,11 +77,11 @@ logging.basicConfig(level=logging.INFO,
 logging.info(args)
 casual_law_file_path = "../data/Casual_Law.json"
 if args.data_type == 'e-CAIL':
-    data_predictor_json = "/data/e-CAIL_PLI.json"
+    data_predictor_json = "../data/e-CAIL_PLI.json"
 elif args.data_type == 'ELAM':
-    data_predictor_json = "/data/ELAM_PLI.json"
+    data_predictor_json = "../data/ELAM_PLI.json"
 elif args.data_type == 'Lecard':
-    data_predictor_json = "/data/Lecard_PLI.json"
+    data_predictor_json = "../data/Lecard_PLI.json"
 else:
     RuntimeError('name error')
 
