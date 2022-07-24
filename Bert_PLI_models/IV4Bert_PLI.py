@@ -82,11 +82,11 @@ logging.basicConfig(level=logging.INFO,#控制台打印的日志级别
 logging.info(args)
 casual_law_file_path = "../data/Casual_Law.json"
 if args.data_type == 'e-CAIL':
-    data_predictor_json = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/data/e-CAIL_PLI.json"
+    data_predictor_json = "/data/e-CAIL_PLI.json"
 elif args.data_type == 'ELAM':
-    data_predictor_json = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/data/ELAM_PLI.json"
+    data_predictor_json = "/data/ELAM_PLI.json"
 elif args.data_type == 'Lecard':
-    data_predictor_json = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/data/Lecard_PLI.json"
+    data_predictor_json = "/data/Lecard_PLI.json"
 else:
     RuntimeError('name error')
 
@@ -597,7 +597,6 @@ def save_checkpoint(model, optimizer, trained_epoch, model_name):
         "trained_epoch": trained_epoch,
     }
     if not os.path.exists(args.checkpoint):
-        # 判断文件夹是否存在，不存在则创建文件夹
         os.mkdir(args.checkpoint)
     filename = args.checkpoint + '/' + "{}_model_name_{}_dataset_name_{}.pkl".format(args.log_name, model_name, args.data_type)
     torch.save(save_params, filename)
@@ -731,7 +730,6 @@ def evaluation(valid_dataloader, model, IV_model, epoch, type='valid'):
 
 def frozen_model(P_model, unfreeze_layers):
     """
-    用于冻结模型
     :param model:
     :param free_layer:
     :return:
@@ -747,7 +745,6 @@ def frozen_model(P_model, unfreeze_layers):
             if ele in name:
                 param.requires_grad = True
                 break
-    # 验证一下
     for name, param in P_model.named_parameters():
         if param.requires_grad:
             print(name, param.size())
@@ -776,11 +773,11 @@ if __name__ == '__main__':
         train_valid(P_model, IV_model, train_data_loader, valid_data_loader, test_data_loader)
     else:
         if args.update_treatment_type == 'agg':
-            P_model_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/transfer_weight/Bert_PLI_model_agg.pkl"
-            IV_model_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/transfer_weight/Bert_PLI_IV_net_agg.pkl"
+            P_model_path = "/Bert_PLI_model_agg.pkl"
+            IV_model_path = "/Bert_PLI_IV_net_agg.pkl"
         elif args.update_treatment_type == 'Sth':
-            P_model_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/transfer_weight/Bert_PLI_model_Sth.pkl"
-            IV_model_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/transfer_weight/Bert_PLI_IV_net_Sth.pkl"
+            P_model_path = "/Bert_PLI_model_Sth.pkl"
+            IV_model_path = "/Bert_PLI_IV_net_Sth.pkl"
         load_checkpoint(P_model, P_model_path)
         load_checkpoint(IV_model, IV_model_path)
         with torch.no_grad():
