@@ -74,11 +74,11 @@ logging.basicConfig(level=logging.INFO,#控制台打印的日志级别
 logging.info(args)
 casual_law_file_path = "../data/Casual_Law.json"
 if args.data_type == 'e-CAIL':
-    data_predictor_json = "/data/e-CAIL.json"
+    data_predictor_json = "../data/e-CAIL.json"
 elif args.data_type == 'ELAM':
-    data_predictor_json = "/data/ELAM.json"
+    data_predictor_json = "../data/ELAM.json"
 elif args.data_type == 'Lecard':
-    data_predictor_json = "/data/Lecard.json"
+    data_predictor_json = "../data/Lecard.json"
 else:
     RuntimeError('name error')
 
