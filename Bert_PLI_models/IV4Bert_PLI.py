@@ -1,9 +1,5 @@
 """
 separately and use the no-fixed laws embedding
-分stage 1 2 进行IV stage1进行 MLP Bert(optional)的更新 stage2进行主任务的更新，stage1的参数也可以更新（optional）
-
-这一版本里第一阶段的MLP（stage 1 loss A B）只在stage 1更新
-第二阶段的只更新主任务loss 所能更新的参数
 """
 import sys
 sys.path.append("../../")
@@ -72,12 +68,11 @@ torch.manual_seed(args.seed)
 torch.cuda.manual_seed_all(args.seed)
 random.seed(args.seed)
 device = torch.device('cuda:'+args.cuda_pos) if torch.cuda.is_available() else torch.device('cpu')
-logging.basicConfig(level=logging.INFO,#控制台打印的日志级别
+logging.basicConfig(level=logging.INFO,
                     filename='../logs/{}_model_name_{}_dataset_name_{}.log'.format(args.log_name, args.model_name, args.data_type),
-                    filemode='a',##模式，有w和a，w就是写模式，每次都会重新写日志，覆盖之前的日志 a是追加模式，默认如果不写的话，就是追加模式
+                    filemode='a',
                     format=
                     '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'
-                    #日志格式
                     )
 logging.info(args)
 casual_law_file_path = "../data/Casual_Law.json"
@@ -113,7 +108,6 @@ def get_similarity_laws_mse(texts, tokenizer, model, Pooling, casual_law_values_
 
 def tokenization(text, stopwords, stop_flag):
     """
-    用于分词的函数
     :param filename:
     :param stopword:
     :param stop_flag:
@@ -128,10 +122,9 @@ def tokenization(text, stopwords, stop_flag):
 
 def get_BM25_SCORE(main_text, pair_list, stopwords=[]):
     """
-    返回main_text 与 pair_text 之间的分数
     :param main_text:
     :param match_list:
-    :param stopwords 停用词
+    :param stopwords 
     :return:
     """
     corpus = []
@@ -146,7 +139,6 @@ def get_BM25_SCORE(main_text, pair_list, stopwords=[]):
 
 def get_similarity_laws_BM25(texts, tokenizer, model, Pooling, casual_law_values_tensor):
     """
-    考虑到bert词向量不能直接cosine similarity，这里用了mse
     :param text:
     :param tokenizer:
     :param model:
@@ -162,8 +154,8 @@ def get_similarity_laws_BM25(texts, tokenizer, model, Pooling, casual_law_values
         text_laws.append([casual_law_keys[i] for i in similarity_index])
     return text_laws
 def load_data(filename):
-    """加载数据
-    返回：[{...}]
+    """
+    [{...}]
     """
     all_data = []
     with open(filename) as f:
@@ -227,7 +219,7 @@ def load_data(filename):
 
 class ELAM_Dataset(Dataset):
     """
-    input data predictor convert的输出就OK
+    input data predictor convert
     """
     def __init__(self, data):
         super(ELAM_Dataset, self).__init__()
@@ -238,7 +230,7 @@ class ELAM_Dataset(Dataset):
 
     def __getitem__(self, index):
         """
-        注意exp的为 match dismatch midmatch
+        
         :param index:
         :return:
         """
@@ -265,9 +257,7 @@ class eCAIL_Dataset(Dataset):
         return self.data[index]['case_a'], self.data[index]['case_b'],self.data[index]["laws_a_embedding"], self.data[index]["laws_b_embedding"], self.data[index]['label']
 
 class Lecard_Dataset(Dataset):
-    """
-    input data predictor convert的输出就OK
-    """
+
     def __init__(self, data):
         super(Lecard_Dataset, self).__init__()
         self.data = data
@@ -345,7 +335,7 @@ class Collate:
 
 def build_pretrain_dataloader(data, batch_size, shuffle=True, num_workers=4, data_type='ELAM'):
     """
-    :param file_path: 文件位置
+    :param file_path: 
     :param batch_size: bs
     :param shuffle:
     :param num_workers:
@@ -372,9 +362,7 @@ def build_pretrain_dataloader(data, batch_size, shuffle=True, num_workers=4, dat
     )
 
 class GlobalAveragePooling1D(nn.Module):
-    """自定义全局池化
-    对一个句子的pooler取平均，一个长句子用短句的pooler平均代替
-    """
+
     def __init__(self):
         super(GlobalAveragePooling1D, self).__init__()
 
