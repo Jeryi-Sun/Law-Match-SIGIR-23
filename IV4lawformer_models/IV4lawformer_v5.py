@@ -74,11 +74,11 @@ logging.basicConfig(level=logging.INFO,#控制台打印的日志级别
 logging.info(args)
 casual_law_file_path = "../data/Casual_Law.json"
 if args.data_type == 'e-CAIL':
-    data_predictor_json = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/data/e-CAIL.json"
+    data_predictor_json = "/data/e-CAIL.json"
 elif args.data_type == 'ELAM':
-    data_predictor_json = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/data/ELAM.json"
+    data_predictor_json = "/data/ELAM.json"
 elif args.data_type == 'Lecard':
-    data_predictor_json = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/data/Lecard.json"
+    data_predictor_json = "/data/Lecard.json"
 else:
     RuntimeError('name error')
 
@@ -708,11 +708,11 @@ if __name__ == '__main__':
         train_valid(P_model, IV_model, train_data_loader, valid_data_loader, test_data_loader)
     else:
         if args.update_treatment_type == 'agg':
-            P_model_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/transfer_weight/IV4lawformer_model_agg.pkl"
-            IV_model_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/transfer_weight/IV4lawformer_IV_net_agg.pkl"
+            P_model_path = "/transfer_weight/IV4lawformer_model_agg.pkl"
+            IV_model_path = "/transfer_weight/IV4lawformer_IV_net_agg.pkl"
         elif args.update_treatment_type == 'Sth':
-            P_model_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/transfer_weight/IV4lawformer_model_Sth.pkl"
-            IV_model_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_for_paper/transfer_weight/IV4lawformer_IV_net_Sth.pkl"
+            P_model_path = "/transfer_weight/IV4lawformer_model_Sth.pkl"
+            IV_model_path = "/transfer_weight/IV4lawformer_IV_net_Sth.pkl"
         load_checkpoint(P_model, P_model_path)
         load_checkpoint(IV_model, IV_model_path)
         with torch.no_grad():
