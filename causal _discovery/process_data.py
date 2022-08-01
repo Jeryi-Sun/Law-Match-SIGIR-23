@@ -10,7 +10,7 @@ import numpy as np
 import pickle as pkl
 from textrank4zh import TextRank4Keyword, TextRank4Sentence
 from gensim.models import KeyedVectors
-addr = "/home/zhongxiang_sun/code/"
+addr = "/"
 section_list = ["本院查明", "审理经过", "公诉机关称"]  # 本院认为去除
 num_section_selected = 10
 num_select_per_doc = 10
@@ -27,7 +27,7 @@ def splite_sentence(para):
     return para.split("\n")
 
 def extract_vocab_from_tx():
-    wv_from_text = gensim.models.KeyedVectors.load_word2vec_format('/home/zhongxiang_sun/code/explanation_project/GCI/data/Tencent_AILab_ChineseEmbedding.bin',binary=True)
+    wv_from_text = gensim.models.KeyedVectors.load_word2vec_format('/code/explanation_project/GCI/data/Tencent_AILab_ChineseEmbedding.bin',binary=True)
     vocab = wv_from_text.key_to_index
     vocab_list = list(vocab.keys())
     with open("/home/zhongxiang_sun/code/explanation_project/GCI/data/tx_vocab.txt", 'w') as f:
@@ -70,17 +70,17 @@ def get_clean_fact_laws():
         keysentences = tr4s.get_key_sentences(num=num_select_per_doc, sentence_min_len=10)
         fact_clean.append([item.sentence for item in keysentences])
 
-    with open("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/GCI/civil/fact_clean.json", 'w') as f:
+    with open("/code/explanation_project/explanation_model/models_v2/data/GCI/civil/fact_clean.json", 'w') as f:
         json.dump(fact_clean, f, ensure_ascii=False)
 
-    with open("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/GCI/civil/laws_clean.json", 'w') as f:
+    with open("/code/explanation_project/explanation_model/models_v2/data/GCI/civil/laws_clean.json", 'w') as f:
         json.dump(laws_clean, f, ensure_ascii=False)
 
 
 
 def split_fact():
-    #jieba.load_userdict("/home/zhongxiang_sun/code/explanation_project/GCI/data/tx_vocab.txt")
-    with open("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/GCI/civil/fact_clean.json", 'r') as f:
+    #jieba.load_userdict("/code/explanation_project/GCI/data/tx_vocab.txt")
+    with open("/code/explanation_project/explanation_model/models_v2/data/GCI/civil/fact_clean.json", 'r') as f:
         fact_clean = json.load(f)
     fact_split = []
     key_wv = set()
@@ -94,7 +94,7 @@ def split_fact():
             fact_split.append(words)
 
     wv_from_text = KeyedVectors.load_word2vec_format(
-        '/home/zhongxiang_sun/code/explanation_project/GCI/data/Tencent_AILab_ChineseEmbedding.bin', binary=True)
+        '/code/explanation_project/GCI/data/Tencent_AILab_ChineseEmbedding.bin', binary=True)
     print('Done loading word embedding')
 
     used_wv = {}
@@ -119,16 +119,16 @@ def split_fact():
                     exact_oov += 1
 
     print(len(used_wv), len(oov), exact_oov)
-    with open('/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data_utils/used_wv_civil.pkl', 'wb') as f:
+    with open('/code/explanation_project/explanation_model/models_v2/data_utils/used_wv_civil.pkl', 'wb') as f:
         pkl.dump(used_wv, f)
 
 
 def get_fact_embedding():
-    #jieba.load_userdict("/home/zhongxiang_sun/code/explanation_project/GCI/data/tx_vocab.txt")
-    with open("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/GCI/civil/fact_clean.json", 'r') as f:
+    #jieba.load_userdict("/code/explanation_project/GCI/data/tx_vocab.txt")
+    with open("/code/explanation_project/explanation_model/models_v2/data/GCI/civil/fact_clean.json", 'r') as f:
         fact_clean = json.load(f)
 
-    with open('/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data_utils/used_wv_civil.pkl', 'rb') as f:
+    with open('/code/explanation_project/explanation_model/models_v2/data_utils/used_wv_civil.pkl', 'rb') as f:
         wv = pkl.load(f)
     fact_embedding = []
     for fact in tqdm(fact_clean):
@@ -143,10 +143,10 @@ def get_fact_embedding():
                 sentence_embedding.append(wv[w])
             doc_embedding.append(np.average(sentence_embedding, axis=-2).tolist())
         fact_embedding.append(doc_embedding)
-    np.save("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data_utils/fact_embedding_civil.npy", fact_embedding)
+    np.save("/code/explanation_project/explanation_model/models_v2/data_utils/fact_embedding_civil.npy", fact_embedding)
 #get_clean_fact_laws()
 split_fact()
 get_fact_embedding()
-# np_array = np.load("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data_utils/fact_embedding.npy", allow_pickle=True)
+# np_array = np.load("/code/explanation_project/explanation_model/models_v2/data_utils/fact_embedding.npy", allow_pickle=True)
 # print()
 
