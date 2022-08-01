@@ -18,11 +18,11 @@ import torch.nn as nn
 from transformers import BertTokenizer, BertModel
 import traceback
 
-addr = "/home/zhongxiang_sun/"
+addr = ""
 
 device = torch.device('cuda:'+'0') if torch.cuda.is_available() else torch.device('cpu')
 
-pretrained_bert_fold = "/home/zhongxiang_sun/code/pretrain_model/bert_legal/"
+pretrained_bert_fold = "/pretrain_model/bert_legal/"
 class GlobalAveragePooling1D(nn.Module):
     """自定义全局池化
     对一个句子的pooler取平均，一个长句子用短句的pooler平均代替
@@ -96,24 +96,24 @@ def load_data():
     """
     load fact clean and laws 
     """
-    with open("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/GCI/fact_clean.json", 'r') as f:
+    with open("code/explanation_project/explanation_model/models_v2/data/GCI/fact_clean.json", 'r') as f:
         fact_clean = json.load(f)
 
 
-    with open("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/GCI/laws_clean.json", 'r') as f:
+    with open("code/explanation_project/explanation_model/models_v2/data/GCI/laws_clean.json", 'r') as f:
         laws_clean = json.load(f)
 
     """
     load wv
     """
-    with open('/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/GCI/used_wv.pkl', 'rb') as f:
+    with open('/code/explanation_project/explanation_model/models_v2/data/GCI/used_wv.pkl', 'rb') as f:
         used_wv = pkl.load(f)
 
 
     """
     load sentence embedding
     """
-    fact_clean_embedding = np.load("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/GCI/fact_embedding.npy", allow_pickle=True).tolist()
+    fact_clean_embedding = np.load("/code/explanation_project/explanation_model/models_v2/data/GCI/fact_embedding.npy", allow_pickle=True).tolist()
 
     print("load data over!")
     return fact_clean, fact_clean_embedding, laws_clean, laws_selected, used_wv, laws_selected_section_num
@@ -390,10 +390,10 @@ def dump_fact_laws_clean(fact_original, laws_clean, num_select_per_doc):
         keysentences = tr4s.get_key_sentences(num=num_select_per_doc, sentence_min_len=10)
         fact_clean.append([item.sentence for item in keysentences])
 
-    with open("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/GCI/fact_clean.json", 'w') as f:
+    with open("/code/explanation_project/explanation_model/models_v2/data/GCI/fact_clean.json", 'w') as f:
         json.dump(fact_clean, f, ensure_ascii=False)
 
-    with open("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/GCI/laws_clean.json", 'w') as f:
+    with open("/code/explanation_project/explanation_model/models_v2/data/GCI/laws_clean.json", 'w') as f:
         json.dump(laws_clean, f, ensure_ascii=False)
 
 def convert_data2embedding(law_type, section_idx):
