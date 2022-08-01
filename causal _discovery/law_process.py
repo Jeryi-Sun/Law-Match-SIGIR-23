@@ -5,27 +5,27 @@
 """
 import re
 import json
-xingfa_file_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/中华人民共和国刑法.txt"
+xingfa_file_path = "/code/explanation_project/explanation_model/models_v2/data/中华人民共和国刑法.txt"
 with open(xingfa_file_path, 'r') as f:
     xingfa = f.read()
 
-xingshisusong_file_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/中华人民共和国刑事诉讼法.txt"
+xingshisusong_file_path = "/code/explanation_project/explanation_model/models_v2/data/中华人民共和国刑事诉讼法.txt"
 with open(xingshisusong_file_path, 'r') as f:
     xingshisusong = f.read()
 
-xingshisusong_exp_file_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/最高人民法院关于适用中华人民共和国刑事诉讼法的解释.txt"
+xingshisusong_exp_file_path = "/code/explanation_project/explanation_model/models_v2/data/最高人民法院关于适用中华人民共和国刑事诉讼法的解释.txt"
 with open(xingshisusong_exp_file_path, 'r') as f:
     xingshisusong_exp = f.read()
 
-jianxing_file_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/最高人民法院关于办理减刑、假释案件具体应用法律的规定.txt"
+jianxing_file_path = "/code/explanation_project/explanation_model/models_v2/data/最高人民法院关于办理减刑、假释案件具体应用法律的规定.txt"
 with open(jianxing_file_path, 'r') as f:
     jianxing = f.read()
 
-hetongfa_file_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/中华人民共和国合同法.txt"
+hetongfa_file_path = "/code/explanation_project/explanation_model/models_v2/data/中华人民共和国合同法.txt"
 with open(hetongfa_file_path, 'r') as f:
     hetongfa = f.read()
 
-minshisusongfa_file_path = "/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/中华人民共和国民事诉讼法.txt"
+minshisusongfa_file_path = "/code/explanation_project/explanation_model/models_v2/data/中华人民共和国民事诉讼法.txt"
 with open(minshisusongfa_file_path, 'r') as f:
     minshisusongfa = f.read()
 
@@ -79,11 +79,11 @@ def produce_law(law_name):
     print(all_len)
 
 
-    with open("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/{}_law_dic.json".format(law_name),
+    with open("/code/explanation_project/explanation_model/models_v2/data/{}_law_dic.json".format(law_name),
               'w') as f:
         json.dump(law_dic, f, ensure_ascii=False)
 
-    with open("/home/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/{}_law_list.json".format(law_name),
+    with open("/code/explanation_project/explanation_model/models_v2/data/{}_law_list.json".format(law_name),
             'w') as f:
         json.dump(new_tiao, f, ensure_ascii=False)
     return new_tiao, law_dic
