@@ -1,6 +1,6 @@
 import json
 import os
-filePath = "/new_disk2/zhongxiang_sun/code/law_project/data/process2_data/criminal/obstruct_public/case_all.json"
+filePath = "/code/law_project/data/process2_data/criminal/obstruct_public/case_all.json"
 features = set()
 with open(filePath, 'r') as f:
     data = json.load(f)
@@ -13,7 +13,7 @@ with open(filePath, 'r') as f:
 
 print(len(features))
 
-with open("/new_disk2/zhongxiang_sun/code/explanation_project/explanation_model/models_v2/data/features.txt", 'w') as f:
+with open("/code/explanation_project/explanation_model/models_v2/data/features.txt", 'w') as f:
     for line in features:
         if "问题" in line:
             f.writelines(line[:-2])
