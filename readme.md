@@ -70,5 +70,5 @@ We conducted the experiments based on the following environments:
 * CUDA Version: 11.1
 * torch version: 1.9.0
 * OS: CentOS Linux release 7.4.1708 (Core)
-* GPU: The NVIDIA® T4 GPU
+* GPU: The NVIDIA 3090 GPU
 * CPU: Intel(R) Xeon(R) Gold 6230R CPU @ 2.10GHz
