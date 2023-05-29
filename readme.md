@@ -2,6 +2,7 @@
 This is the official implementation of the paper "Law Article-Enhanced Legal Case Matching: a Causal Learning Approach" based on PyTorch.
 
 ## Overview
+<img width="759" alt="image" src="https://github.com/Jeryi-Sun/Law-Match-SIGIR-23/assets/51322811/a0606611-2989-4af0-b4e6-b01c57db7db2">
 
 ## Law-Match(Sentence-Bert)
 ## Law-Match(Bert-PLI)
